@@ -125,7 +125,9 @@
                   <div>
                     <h3 class="heading mt-3 mb-3 text-dark">{{wine_item.Название}}</h3>
                     <p>
-                      Сорт винограда - {{wine_item.Сорт}}<br/>
+                      {% if category != 'Напитки' %}
+                        Сорт винограда - {{wine_item.Сорт}}<br/>
+                       {% endif %}
                       <span class="price">{{wine_item.Цена}} р.</span>
                     </p>
                   </div>
