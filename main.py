@@ -17,7 +17,7 @@ def year_incline(year):
 shop_lifetime = datetime.now().year - 1920
 year_incline = year_incline(shop_lifetime)
 
-wine_data = pd.read_excel('wine2.xlsx')
+wine_data = pd.read_excel('wine3.xlsx')
 wine_data.fillna('', inplace=True)
 wine_dict = defaultdict(list)
 
@@ -27,7 +27,8 @@ for wine_item in wine_data.values:
          'Категория': wine_item[0],
          'Название': wine_item[1],
          'Сорт': wine_item[2],
-         'Цена': wine_item[3]
+         'Цена': wine_item[3],
+         'Акция': wine_item[5]
          }
     )
 

@@ -121,7 +121,11 @@
             {% for wine_item in wine_items %}
               <div class="col-lg-4 mb-5 col-md-6">
                 <div class="wine_v_1 text-center pb-4 pt-5">
-                  <img src="images/{{wine_item.Картинка}}" alt="Image" class="img-fluid">
+                  <img src="images/{{wine_item.Картинка}}"  alt="Image" class="img-fluid">
+                  {% if wine_item.Акция != '' %}
+                  <img src="assets/profitable.png" style="width:10rem;height: 10rem;
+                  position:absolute;right: -20px;top: -20px;">
+                  {% endif %}
                   <div>
                     <h3 class="heading mt-3 mb-3 text-dark">{{wine_item.Название}}</h3>
                     <p>
