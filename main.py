@@ -1,7 +1,9 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from collections import defaultdict
 from datetime import datetime
 import pandas as pd
+
 
 def year_incline(year):
     if year % 100 > 4 or year % 100 == 0:
@@ -15,9 +17,19 @@ def year_incline(year):
 shop_lifetime = datetime.now().year - 1920
 year_incline = year_incline(shop_lifetime)
 
-wine_data = pd.read_excel('wine.xlsx').values
+wine_data = pd.read_excel('wine2.xlsx')
+wine_data.fillna('', inplace=True)
+wine_dict = defaultdict(list)
 
-wine_items = [{'brand': i[0], 'grape_type': i[1], 'price': i[2], 'img': f'images/{i[3]}'} for i in wine_data]
+for wine_item in wine_data.values:
+    wine_dict[wine_item[0]].append(
+        {'Картинка': wine_item[4],
+         'Категория': wine_item[0],
+         'Название': wine_item[1],
+         'Сорт': wine_item[2],
+         'Цена': wine_item[3]
+         }
+    )
 
 env = Environment(
     loader=FileSystemLoader('.'),
@@ -28,7 +40,7 @@ template = env.get_template('template.html')
 
 rendered_page = template.render(
     wine_shop_lifetime=f'{shop_lifetime} {year_incline}',
-    wine_items=wine_items
+    wine_dict=wine_dict
 )
 
 with open('index.html', 'w', encoding="utf8") as file:
