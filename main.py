@@ -25,15 +25,9 @@ wine_table = pd.read_excel('wine3.xlsx')
 wine_table.fillna('', inplace=True)
 wine = defaultdict(list)
 
-for wine_item in wine_table.values:
-    wine[wine_item[0]].append(
-        {'Картинка': wine_item[4],
-         'Категория': wine_item[0],
-         'Название': wine_item[1],
-         'Сорт': wine_item[2],
-         'Цена': wine_item[3],
-         'Акция': wine_item[5]
-         }
+for category, *wine_item in wine_table.values:
+    wine[category].append(
+        {wine_field: value for wine_field, value in zip(wine_table.columns[1:], wine_item)}
     )
 
 env = Environment(
