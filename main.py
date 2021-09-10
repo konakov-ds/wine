@@ -1,3 +1,4 @@
+import argparse
 from collections import defaultdict
 from datetime import datetime
 from http.server import HTTPServer
@@ -8,12 +9,8 @@ from jinja2 import Environment
 from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
 
-env = Environment(
-    loader=FileSystemLoader('.'),
-    autoescape=select_autoescape(['html', 'xml'])
-)
-shop_age = datetime.now().year - 1920
-path = 'wine3.xlsx'
+
+SHOP_AGE = datetime.now().year - 1920
 
 
 def get_valid_name_for_year(year):
@@ -40,12 +37,21 @@ def get_dictionary_for_template(path):
 
 
 def main():
-    year_valid = get_valid_name_for_year(shop_age)
-    wine = get_dictionary_for_template(path)
+    parser = argparse.ArgumentParser(description='Добавляет sku вин на сайт')
+    parser.add_argument('wine_path', type=str, help='Путь до таблицы с винами')
+    args = parser.parse_args()
+
+    year_valid = get_valid_name_for_year(SHOP_AGE)
+    wine = get_dictionary_for_template(args.wine_path)
+
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
 
     template = env.get_template('template.html')
     rendered_page = template.render(
-        wine_shop_age=f'{shop_age} {year_valid}',
+        wine_shop_age=f'{SHOP_AGE} {year_valid}',
         wine=wine
     )
 
