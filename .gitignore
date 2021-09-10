@@ -1,3 +1,6 @@
 env/
 .vscode/
-
+.replit
+wine.xlsx
+wine2.xlsx
+index.html
