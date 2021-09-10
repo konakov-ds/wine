@@ -9,7 +9,7 @@ from jinja2 import FileSystemLoader
 from jinja2 import select_autoescape
 
 
-def year_incline(year):
+def get_valid_name_for_year(year):
     if year % 100 > 4 or year % 100 == 0:
         return 'лет'
     elif year % 10 == 1:
@@ -18,15 +18,15 @@ def year_incline(year):
         return 'года'
 
 
-shop_lifetime = datetime.now().year - 1920
-year_incline = year_incline(shop_lifetime)
+shop_age = datetime.now().year - 1920
+year_valid = get_valid_name_for_year(shop_age)
 
-wine_data = pd.read_excel('wine3.xlsx')
-wine_data.fillna('', inplace=True)
-wine_dict = defaultdict(list)
+wine_table = pd.read_excel('wine3.xlsx')
+wine_table.fillna('', inplace=True)
+wine = defaultdict(list)
 
-for wine_item in wine_data.values:
-    wine_dict[wine_item[0]].append(
+for wine_item in wine_table.values:
+    wine[wine_item[0]].append(
         {'Картинка': wine_item[4],
          'Категория': wine_item[0],
          'Название': wine_item[1],
@@ -44,8 +44,8 @@ env = Environment(
 template = env.get_template('template.html')
 
 rendered_page = template.render(
-    wine_shop_lifetime=f'{shop_lifetime} {year_incline}',
-    wine_dict=wine_dict
+    wine_shop_age=f'{shop_age} {year_valid}',
+    wine=wine
 )
 
 with open('index.html', 'w', encoding="utf8") as file:
