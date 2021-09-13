@@ -5,6 +5,15 @@
 ## Запуск
 
 - Скачайте код
+- Создайте виртуальное окружение
+  ```
+  python -m venv venv
+  source venv/bin/activate
+  ```
+- Установите необходимые библиотеки
+  ```
+  pip install -r requirements.txt
+  ```
 - Запустите сайт командой: 
   ```
   python3 main.py path
